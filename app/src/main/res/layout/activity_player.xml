@@ -11,62 +11,62 @@
     tools:context="com.ragz.musicplayer.PlayerActivity">
 
     <SeekBar
+        android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/seekBar" />
+        android:layout_centerHorizontal="true" />
 
     <Button
-        android:onClick="doAction"
-        android:text="prev"
-        android:layout_height="wrap_content"
         android:id="@+id/btnPrevious"
-        android:layout_below="@+id/seekBar"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_width="70dp" />
+        android:layout_below="@+id/seekBar"
+        android:onClick="doAction"
+        android:text="prv" />
 
     <Button
-        android:onClick="doAction"
-        android:text="back"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
         android:id="@+id/btnFastBackward"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/seekBar"
+        android:layout_toEndOf="@+id/btnPrevious"
         android:layout_toRightOf="@+id/btnPrevious"
-        android:layout_toEndOf="@+id/btnPrevious" />
+        android:onClick="doAction"
+        android:text="bck" />
 
     <Button
-        android:onClick="doAction"
-        android:text="next"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
         android:id="@+id/btnNext"
-        android:layout_below="@+id/seekBar"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:onClick="doAction"
-        android:text="fwd"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/seekBar"
+        android:onClick="doAction"
+        android:text="nxt" />
+
+    <Button
         android:id="@+id/btnFastForward"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/btnNext"
         android:layout_alignBottom="@+id/btnNext"
         android:layout_toLeftOf="@+id/btnNext"
-        android:layout_toStartOf="@+id/btnNext" />
+        android:layout_toStartOf="@+id/btnNext"
+        android:onClick="doAction"
+        android:text="fwd" />
 
     <Button
-        android:onClick="doAction"
-        android:text="pause"
+        android:id="@+id/btnPP"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:id="@+id/btnPP"
         android:layout_alignBaseline="@+id/btnFastForward"
         android:layout_alignBottom="@+id/btnFastForward"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="doAction"
+        android:text="||" />
 
 
 </RelativeLayout>

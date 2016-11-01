@@ -14,12 +14,13 @@ import java.util.ArrayList;
 
 public class PlayerActivity extends AppCompatActivity {
 
-    private MediaPlayer mediaPlayer;
+    static MediaPlayer mediaPlayer;
     private ArrayList<File> mySongs;
     private SeekBar seekBar;
     private int position;
     private Uri uri;
     private Button btnPP;
+    Thread seekBarMotion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,29 @@ public class PlayerActivity extends AppCompatActivity {
 
         btnPP = (Button) findViewById(R.id.btnPP);
 
+        seekBarMotion = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                int totalDuration = mediaPlayer.getDuration();
+                int currentPosition = 0;
+                while (currentPosition < totalDuration) {
+                    try {
+                        sleep(500);
+                        currentPosition = mediaPlayer.getCurrentPosition();
+                        seekBar.setProgress(currentPosition);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+        }
+
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         mySongs = (ArrayList) bundle.getParcelableArrayList("songlist");
@@ -39,6 +63,28 @@ public class PlayerActivity extends AppCompatActivity {
         uri = Uri.parse(mySongs.get(position).toString());
         mediaPlayer = MediaPlayer.create(getBaseContext(), uri);
         mediaPlayer.start();
+        seekBarMotion.start();
+
+        seekBar.setMax(mediaPlayer.getDuration());
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mediaPlayer.seekTo(seekBar.getProgress());
+            }
+        });
+
     }
 
     public void doAction(View view) {
@@ -46,10 +92,10 @@ public class PlayerActivity extends AppCompatActivity {
         switch (id) {
             case R.id.btnPP:
                 if (mediaPlayer.isPlaying()) {
-                    btnPP.setText("play");
+                    btnPP.setText(">");
                     mediaPlayer.pause();
                 } else {
-                    btnPP.setText("pse");
+                    btnPP.setText("||");
                     mediaPlayer.start();
                 }
                 break;
@@ -66,6 +112,7 @@ public class PlayerActivity extends AppCompatActivity {
                 uri = Uri.parse(mySongs.get(position).toString());
                 mediaPlayer = MediaPlayer.create(getBaseContext(), uri);
                 mediaPlayer.start();
+                btnPP.setText("||");
                 break;
             case R.id.btnNext:
                 mediaPlayer.stop();
@@ -74,6 +121,7 @@ public class PlayerActivity extends AppCompatActivity {
                 uri = Uri.parse(mySongs.get(position).toString());
                 mediaPlayer = MediaPlayer.create(getBaseContext(), uri);
                 mediaPlayer.start();
+                btnPP.setText("||");
                 break;
         }
     }
