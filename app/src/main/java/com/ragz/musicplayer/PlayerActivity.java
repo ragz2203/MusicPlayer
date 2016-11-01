@@ -46,8 +46,10 @@ public class PlayerActivity extends AppCompatActivity {
         switch (id) {
             case R.id.btnPP:
                 if (mediaPlayer.isPlaying()) {
+                    btnPP.setText("play");
                     mediaPlayer.pause();
                 } else {
+                    btnPP.setText("pse");
                     mediaPlayer.start();
                 }
                 break;
@@ -68,7 +70,8 @@ public class PlayerActivity extends AppCompatActivity {
             case R.id.btnNext:
                 mediaPlayer.stop();
                 mediaPlayer.release();
-                uri = Uri.parse(mySongs.get(((position + 1) % mySongs.size())).toString());
+                position = (position + 1) % mySongs.size();
+                uri = Uri.parse(mySongs.get(position).toString());
                 mediaPlayer = MediaPlayer.create(getBaseContext(), uri);
                 mediaPlayer.start();
                 break;
